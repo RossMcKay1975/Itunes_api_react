@@ -1,22 +1,28 @@
-import React from 'react'
-import ItunesList from '../components/ItunesList'
-import ItunesDetail from '../components/ItunesDetail'
+import React, { Component } from 'react'
+// import ItunesList from '../components/ItunesList'
 
-class CountryContainer extends React.Component {
+
+class ItunesContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
       Itunes: [],
-    
-    this.handleCountrySelected = this.handleCountrySelected.bind(this)
+    }
   }
 
   componentDidMount() {
     const url = 'https://itunes.apple.com/gb/rss/topsongs/limit=20/json';
-
-    fetch(url)
+    fetch(url) 
       .then(res => res.json())
-      .then(countries => this.setState({ countries: countries }))
-      .catch(err => console.error(err))
+      .then(data => this.setState({Itunes: data.feed.entry}))
+      
   }
+
+render() {
+    if (this.state.Itunes.length === 0) return null 
+    return<p>{this.state.Itunes[0].title.label}</p>
 }
+
+}
+
+export default ItunesContainer
